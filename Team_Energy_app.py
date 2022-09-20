@@ -209,7 +209,6 @@ with st.container():
                         forecast = forecast_model(m,train_wd,test_wd,add_weather=True)
                         Show_Graph = True
                         st.success('Done, Plotting Graphs now.')
-                        compute_accuracy(forecast, train_df)
                         evaluate
                         st.write(forecast)
 with st.container():
