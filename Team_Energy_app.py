@@ -228,7 +228,7 @@ with st.container():
         x = test_df['DateTime'].loc[(test_df['DateTime'] <= '2014-02-14')]
         sns.lineplot(x=x,y=test_df['KWH/hh'],label='Actual', color='red');
         fig_2 = figure(figsize=(15,6))
-        sns.lineplot(x=test_wd['DateTime'],y=test_wd['temperature'],label='Weather',color='red',alpha=0.5, linewidth=3, linestyle='--'), plt.ylabel('Temperature (C)'), plt.title('Temperature vs Time'));
+        sns.lineplot(x=test_wd['DateTime'],y=test_wd['temperature'],label='Weather',color='red',alpha=0.5, linewidth=3, linestyle='--'), plt.ylabel('Temperature (C)'), plt.title('Temperature vs Time');
         with st.spinner('Wait for it...'):
             time.sleep(5)
         st.success('Done!')
