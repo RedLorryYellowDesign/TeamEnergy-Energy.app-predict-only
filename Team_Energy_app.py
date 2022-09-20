@@ -128,7 +128,7 @@ with st.sidebar:
     st.title("Built By Team Energy")
     st.write("This app is designed to help you understand your energy usage and how it compares to other households. To get started, please select your tariff.")
     st.write("We hope you enjoy using this app and find it useful.")
-    st.lottie(House_Energy_Animation, speed=1, reverse=False, loop=True, renderer="svg", height=200, key=None, )
+    st.lottie(House_Energy_Animation, speed=1, reverse=False, loop=True, renderer="svg", height=200, key=eng )
 # ---| HEADER SECTION |--->>>>
 with st.container():
     Header_col_1, Header_col_2, Header_col_3, Header_col_4 = st.columns(4)
