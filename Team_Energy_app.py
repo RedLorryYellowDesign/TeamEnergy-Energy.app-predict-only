@@ -54,10 +54,6 @@ if Lottie_off == False:
     Team_Lottie_Animation = load_lottieurl("https://assets5.lottiefiles.com/packages/lf20_vctzcozn.json")
     Loding_Animation = load_lottieurl("https://assets5.lottiefiles.com/packages/lf20_ibxFWH.json")
 # ---| IMPORTING IMAGES |--->>>>
-# ---| SIDE BAR |--->>>>
-with st.sidebar:
-    st.image('Images/Team_Energy_Logo.png', width=200)
-    st.title("  By Team Energy")
 
 # st.download_button('Downoload your data', data, file_name=None, mime=None, key=None, help=None, on_click=None, args=None, kwargs=None, *, disabled=False)
 # ---| Questions |--->>>>
@@ -125,6 +121,13 @@ def Mode_Predict_Run(User_Tarrif_Selected, User_Group_Selected):
     Show_Graph = True
     st.success('Done, Plostting Graphis now.')
     return forecast, Show_Graph
+# ---| SIDE BAR |--->>>>
+with st.sidebar:
+    st.image('Images/Team_Energy_Logo.png', width=200)
+    st.title("  By Team Energy")
+    st.write("---")
+    st.write("## 1. Select Your Tariff")
+    st.write("This app is designed to help you understand your energy usage and how it compares to other households. To get started, please select your tariff.")
 
 # ---| HEADER SECTION |--->>>>
 with st.container():
@@ -209,7 +212,7 @@ with st.container():
                         forecast = forecast_model(m,train_wd,test_wd,add_weather=True)
                         Show_Graph = True
                         st.success('Done, Plotting Graphs now.')
-                        evaluate
+                        evaluate(actual,forecast)
                         st.write(forecast)
 with st.container():
     if Show_Graph == True:
@@ -231,11 +234,6 @@ with st.container():
         st.success('Done!')
         st.pyplot(fig_1)
         st.pyplot(fig_2)
-# ---| PLOTLY GRAPH |--->>>>
-        fig_py_1 = px.line(forecast, x="ds", y="yhat", title='Your Energy Consumption Over the next month')
-        fig_py_3 = px.line(test_wd, x="DateTime", y="temperature", title='How the weather will affect your energy consumption over the next month')
-        st.plotly_chart(fig_py_1)
-        st.plotly_chart(fig_py_3)
 # ---| FOOTER SECTION|--->>>>
 with st.container():
     st.write("---")
