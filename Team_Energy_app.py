@@ -20,15 +20,11 @@ import streamlit as st # Allows compatibility with Streamlit
 from streamlit_lottie import st_lottie # Allows lottie animation
 from PIL import Image # Image manipulation
 # ---| DATASCIANCE LIBRARIES |--->>>>
-import plotly as py
-import plotly.express as px
-import plotly.graph_objects as go
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import joblib
-import plotly.figure_factory as ff
 import time
 # ---| VERIABLES |--->>>>
 API_MODE = False
@@ -52,55 +48,6 @@ def load_lottieurl(url):
     if r.status_code != 200:
         return None
     return r.json()
-# ---| CALL API FROM GCP |--->>>>
-def API_REQUESTS(url):
-    if API_MODE == True:
-        r = requests.get(url)
-        if r.status_code != 200:
-            return None
-        return r.json()
-    else:
-        st.write("API Call is set to False, Please Enable API Call")
-# ---| POST API |--->>>>
-def API_POST(url, data):
-    if API_MODE == True:
-        r = requests.post(url, data=data)
-        if r.status_code != 200:
-            return None
-        return r.json()
-    else:
-        st.write("API Call is set to False, Please Enable API Call")
-
-# ---| SEABORN PLOT FUNCTIONS |--->>>>
-def seabon_line_plot(x, y, title, xlabel, ylabel, hue=None):
-    fig_01, ax = plt.subplots(figsize=(10, 6))
-    sns.lineplot(x=x, y=y, hue=hue)
-    ax.set_title(title)
-    ax.set_xlabel(xlabel)
-    ax.set_ylabel(ylabel)
-    st.pyplot(fig_01)
-# ------>>>>
-def seabon_bar_plot(df, x, y, title, xlabel, ylabel, hue=None):
-    fig_02, ax = plt.subplots(figsize=(10, 6))
-    sns.barplot(data=df, x=x, y=y, hue=hue)
-    ax.set_title(title)
-    ax.set_xlabel(xlabel)
-    ax.set_ylabel(ylabel)
-    st.pyplot(fig_02)
-# ---| PLOTLY PLOT FUNCTIONS |--->>>>
-def plotly_line_plot(df, x, y, title, xlabel, ylabel, hue=None):
-    fig_03 = py.line(df, x=x, y=y, title=title, labels={x:xlabel, y:ylabel}, color=hue)
-    st.plotly_chart(fig_03)
-def compute_accuracy(y_true, y_pred):
-    correct_predictions = 0
-    # iterate over each label and check
-    for true, predicted in zip(y_true, y_pred):
-        if true == predicted:
-            correct_predictions += 1
-    # compute the accuracy
-    accuracy = correct_predictions/len(y_true)
-    return accuracy
-
 # ---| IMPORTING LOTTIE ASSEST |---
 if Lottie_off == False:
     lottie_coding_Data_Science_Animation = load_lottieurl("https://assets5.lottiefiles.com/packages/lf20_xl3sktpc.json")
@@ -263,7 +210,7 @@ with st.container():
                         Show_Graph = True
                         st.success('Done, Plotting Graphs now.')
                         compute_accuracy(forecast, train_df)
-                        st.write(evaluate)
+                        evaluate
                         st.write(forecast)
 with st.container():
     if Show_Graph == True:
