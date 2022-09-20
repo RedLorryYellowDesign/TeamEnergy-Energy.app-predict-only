@@ -214,6 +214,8 @@ with st.container():
                         st.success('Done, Plotting Graphs now.')
                         mape = evaluate(test_df['KWH/hh'], forecast['yhat'])
                         st.write(f'MAPE: {mape}')
+                        acuracy = 100 - mape
+                        st.write(f'Accuracy: {acuracy}')
                         st.write(forecast)
 with st.container():
     if Show_Graph == True:
