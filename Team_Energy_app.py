@@ -91,8 +91,6 @@ def seabon_bar_plot(df, x, y, title, xlabel, ylabel, hue=None):
 def plotly_line_plot(df, x, y, title, xlabel, ylabel, hue=None):
     fig_03 = py.line(df, x=x, y=y, title=title, labels={x:xlabel, y:ylabel}, color=hue)
     st.plotly_chart(fig_03)
-
-
 def compute_accuracy(y_true, y_pred):
     correct_predictions = 0
     # iterate over each label and check
@@ -161,7 +159,6 @@ def api_check_call(check=False):
         st.write("API Call is set to False, Please Enable API Call")
 
 @st.experimental_memo
-<<<<<<< Updated upstream
 def Mode_Predict_Run(User_Tarrif_Selected, User_Group_Selected):
     name = User_Group_Selected
     tariff = User_Tarrif_Selected
@@ -181,18 +178,6 @@ def Mode_Predict_Run(User_Tarrif_Selected, User_Group_Selected):
     Show_Graph = True
     st.success('Done, Plostting Graphis now.')
     return forecast, Show_Graph
-=======
-def api_model_call(model,name, tariff):
-    url = f"https://team-weather-lewagon-sf2mcflzda-ew.a.run.app"
-    if model == RNN:
-        sel_model = "RNN_predict"
-    elif model == predict:
-        sel_model = "predict"
-    else:
-        return "Please select a model"
-    name = name
-    tariff = tariff
->>>>>>> Stashed changes
 
 # ---| HEADER SECTION |--->>>>
 with st.container():
@@ -278,6 +263,8 @@ with st.container():
                         Show_Graph = True
                         st.success('Done, Plotting Graphs now.')
                         compute_accuracy(forecast, train_df)
+                        st.write(evaluate)
+                        st.write(forecast)
 with st.container():
     if Show_Graph == True:
         my_bar = st.progress(0)
