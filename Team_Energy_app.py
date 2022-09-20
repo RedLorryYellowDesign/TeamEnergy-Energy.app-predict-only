@@ -128,7 +128,7 @@ with st.sidebar:
     st.title("Built By Team Energy")
     st.write("This app is designed to help you understand your energy usage and how it compares to other households. To get started, please select your tariff.")
     st.write("We hope you enjoy using this app and find it useful.")
-    st_lottie(House_Energy_Animation, speed=1, reverse=False, loop=True, height=200, key=None)
+    st_lottie(House_Energy_Animation, speed=1, reverse=False, loop=True, height=250, key=None)
 # ---| HEADER SECTION |--->>>>
 with st.container():
     Header_col_1, Header_col_2, Header_col_3, Header_col_4 = st.columns(4)
@@ -212,7 +212,7 @@ with st.container():
                         forecast = forecast_model(m,train_wd,test_wd,add_weather=True)
                         Show_Graph = True
                         st.success('Done, Plotting Graphs now.')
-                        evaluate(actual,forecast)
+                        evaluate(test_df,forecast)
                         st.write(forecast)
 with st.container():
     if Show_Graph == True:
@@ -226,9 +226,9 @@ with st.container():
         sns.lineplot(x=forecast['ds'],y=forecast['yhat'],label='Forecast');
         #sns.lineplot(x=test_df['DateTime'],y=test_df['KWH/hh'],label='Actual');
         x = test_df['DateTime'].loc[(test_df['DateTime'] <= '2014-02-14')]
-        sns.lineplot(x=x,y=test_df['KWH/hh'],label='Actual')
+        sns.lineplot(x=x,y=test_df['KWH/hh'],label='Actual', color='red');
         fig_2 = figure(figsize=(15,6))
-        sns.lineplot(x=test_wd['DateTime'],y=test_wd['temperature'],label='Weather');
+        sns.lineplot(x=test_wd['DateTime'],y=test_wd['temperature'],label='Weather',color='red',alpha=0.5, linewidth=3, linestyle='--'), plt.ylabel('Temperature (C)'), plt.title('Temperature vs Time'));
         with st.spinner('Wait for it...'):
             time.sleep(5)
         st.success('Done!')
