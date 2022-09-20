@@ -212,7 +212,8 @@ with st.container():
                         forecast = forecast_model(m,train_wd,test_wd,add_weather=True)
                         Show_Graph = True
                         st.success('Done, Plotting Graphs now.')
-                        evaluate(test_df,forecast)
+                        mape = evaluate(test_df['KWH/hh'], forecast['yhat'])
+                        st.write(f'MAPE: {mape}')
                         st.write(forecast)
 with st.container():
     if Show_Graph == True:
