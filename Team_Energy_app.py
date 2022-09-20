@@ -224,10 +224,10 @@ with st.container():
             time.sleep(0.1)
         my_bar.progress(percent_complete + 1)
         fig_1 = plt.figure(figsize=(15, 6))
-        plt.ylabel('KWH/hh')
+        plt.ylabel('Power Usage in KWH/hh')
+        plt.xlabel('Timeframe of exstermatation')
         plt.title('Forecasted Energy vs Actual Energy Usage Demo')
-        sns.lineplot(x=forecast['ds'],y=forecast['yhat'],label='Forecast');
-        #sns.lineplot(x=test_df['DateTime'],y=test_df['KWH/hh'],label='Actual');
+        sns.lineplot(x=forecast['ds'],y=forecast['yhat'],label='Forecast')
         x = test_df['DateTime'].loc[(test_df['DateTime'] <= '2014-02-14')]
         sns.lineplot(x=x,y=test_df['KWH/hh'],label='Actual', color='red');
         fig_2 = figure(figsize=(15,6))
