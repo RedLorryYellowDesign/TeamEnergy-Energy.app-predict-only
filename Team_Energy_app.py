@@ -124,11 +124,9 @@ def Mode_Predict_Run(User_Tarrif_Selected, User_Group_Selected):
 # ---| SIDE BAR |--->>>>
 with st.sidebar:
     st.image('Images/Team_Energy_Logo.png', width=200)
-    st.title("  By Team Energy")
-    st.write("---")
-    st.write("## 1. Select Your Tariff")
+    st.title("Built By Team Energy")
     st.write("This app is designed to help you understand your energy usage and how it compares to other households. To get started, please select your tariff.")
-
+    st.write("We hope you enjoy using this app and find it useful.")
 # ---| HEADER SECTION |--->>>>
 with st.container():
     Header_col_1, Header_col_2, Header_col_3, Header_col_4 = st.columns(4)
