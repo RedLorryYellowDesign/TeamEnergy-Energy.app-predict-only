@@ -240,7 +240,7 @@ with st.container():
         total_usage = forecast.sum()
         tu = total_usage.to_string().strip("yhatdtype:float64")
         average_usage = 330.47289
-        st.caption(f’You will use a predicted total of {tu} KWH/hh next month, compared to {average_usage} KWH/hh in the average home’)
+        st.caption(f"You will use a predicted total of {tu} KWH/hh next month, compared to {average_usage} KWH/hh in the average home")
 
 
         st.pyplot(fig_2)
