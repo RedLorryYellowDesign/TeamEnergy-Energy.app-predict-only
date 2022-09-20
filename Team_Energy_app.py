@@ -213,10 +213,10 @@ with st.container():
                         Show_Graph = True
                         st.success('Done, Plotting Graphs now.')
                         mape = evaluate(test_df['KWH/hh'], forecast['yhat'])
-                        st.write(f'MAPE: {mape}')
-                        acuracy = 100 - mape
+                        # st.write(f'MAPE: {mape}')
+                        acuracy = (1 - mape)
                         st.write(f'Accuracy: {acuracy}')
-                        st.write(forecast)
+                        # st.write(forecast)
 with st.container():
     if Show_Graph == True:
         my_bar = st.progress(0)
@@ -224,8 +224,8 @@ with st.container():
             time.sleep(0.1)
         my_bar.progress(percent_complete + 1)
         fig_1 = plt.figure(figsize=(15, 6))
-        plt.ylabel('Power Usage in KWH/hh')
-        plt.xlabel('Timeframe of exstermatation')
+        plt.ylabel('Energy Usage in KWH/hh')
+        plt.xlabel('Timeframe')
         plt.title('Forecasted Energy vs Actual Energy Usage Demo')
         sns.lineplot(x=forecast['ds'],y=forecast['yhat'],label='Forecast')
         x = test_df['DateTime'].loc[(test_df['DateTime'] <= '2014-02-14')]
