@@ -153,7 +153,7 @@ def find_value(x):
 with st.sidebar:
     st.image('Images/Team_Energy_Logo.png', width=200)
     st.title("Built By Team Energy")
-    st.write("This app is designed to help you understand your energy usage and how it compares to other households. To get started, please select your tariff We hope you enjoy using this app and find it useful.")
+    st.write("This app is designed to help you understand your energy usage and how it compares to other households.")
     st_lottie(House_Energy_Animation, speed=1, reverse=False, loop=True, height=250, key=None)
 # ---| HEADER SECTION |--->>>>
 with st.container():
@@ -168,21 +168,21 @@ with st.container():
         st.empty()
 # ---| MAIN SECTION |--->>>>  Cleaned
 with st.container():
-    tab0, tab1, tab3, tab4, tab5, tab6, tab7 = st.tabs(["Intro","Tariff Type", "House Type","Home owner?","Number of Bedrooms","Household Income","Submit"])
+    tab0, tab1, tab3, tab4, tab5, tab6, tab7 = st.tabs(["Intro","Tariff Type", "House Type","Ownership Status","Number of Bedrooms","Household Income","Submit"])
     with tab0:
         st.write("This app will help you to predict your energy consumption")
-        st.write("All you need to do is answer a few questions, sound good?")
-        st.write("Let's get started. Just click on the next tab called Tariff Type to")
-        st.write("get started")
+        st.write("All you need to do is answer a few questions, sounds good?")
+        st.write("Let's get started. Just click on the next tab called 'Tariff Type' to get started")
+
     with tab1:
-        st.write("Please Select your Tariff Type your currently on")
-        User_Tarrif_Selected = st.selectbox('Pick one', ["","Fixed Tariff", "Variable Tariff"])
-        if User_Tarrif_Selected == "Fixed Tariff":
+        st.write("Please select your current tariff")
+        User_Tarrif_Selected = st.selectbox('Pick one', ["","Standard Tariff", "Dynamic Tariff"])
+        if User_Tarrif_Selected == "Standard Tariff":
             User_Tarrif_Selected = "Std"
-            st.write("You have selected Fixed Tariff")
-        elif User_Tarrif_Selected == "Variable Tariff":
+            st.write("You have selected Standard Tariff")
+        elif User_Tarrif_Selected == "Dynamic Tariff":
             User_Tarrif_Selected = "ToU"
-            st.write("You have selected Variable Tariff")
+            st.write("You have selected Dynamic Tariff")
         else:
             st.warning("Please select a tariff")
 
@@ -198,7 +198,7 @@ with st.container():
             if Question_2 != " ":
                 st.write("Please select an option")
         with tab5:
-            st.write("How many Bedrooms does your house have?")
+            st.write("How many bedrooms does your house have?")
             Question_3 = st.selectbox('Pick one', ["",'1 bedroom', '2 bedrooms', '3 bedrooms', '4+ bedrooms'], key="Question_3")
             if Question_3 != " ":
                 st.write("Please select an option")
@@ -220,29 +220,29 @@ with st.container():
 
                         with st.spinner(f'Calling the model for Acorn group: {User_Group_Selected}'):
                             time.sleep(5)
-                            st.success('Good so far')
+                            st.success('Good so far...')
                             # User_Group_Selected = questions(Q1 = Question_1, Q2 = Question_2, Q3 = Question_3, Q4 = Question_4)
                             name = User_Group_Selected
                             tariff = User_Tarrif_Selected
                             # ---| IMPORT JOBLIT MODEL |--->>>>
                             filename = f'Team_Energy/model_{name}_{tariff}.joblib'
                             m = joblib.load(filename)
-                            with st.spinner('Spinning up the Hard Drives'):
+                            with st.spinner('Spinning up the hard drives...'):
                                 time.sleep(5)
-                            st.success('All Working Well')
+                            st.success('All working well...')
                             # ---| PREDICTING |--->>>>
                             m = joblib.load(filename)
-                            with st.spinner('Last Part! This can take a second or two'):
+                            with st.spinner('Last part! This can take a second or two...'):
                                 time.sleep(5)
                             train_df, test_df = create_data(name = name, tariff = tariff)
                             train_wd, test_wd = get_weather(train_df, test_df)
                             forecast = forecast_model(m,train_wd,test_wd,add_weather=True)
                             Show_Graph = True
-                            st.success('Done, Plotting Graphs now.')
+                            st.success('Plotting graphs now...')
                             mape = evaluate(test_df['KWH/hh'], forecast['yhat'])
                             # st.write(f'MAPE: {mape}')
                             acuracy = (1 - mape)
-                            st.write(f'Accuracy: {acuracy}')
+                            #st.write(f'Accuracy: {acuracy}')
             with col2:
                 if st.button("Submit +"):
                     if User_Tarrif_Selected != "" and Question_1 != "" and Question_2 != "" and Question_3 != "" and Question_4 != "":
@@ -259,7 +259,7 @@ with st.container():
                         st.write(f'Accuracy: {acuracy}')
                         ajusted_acuracy = (1-acuracy) * 100
                         st.write(predict)
-                        st.write(f'Accuracy: {ajusted_acuracy}')
+                        #st.write(f'Accuracy: {ajusted_acuracy}')
                         st.line_chart(predict)
 
                         plot_graphs('''test_set=test_set''',predicted_consumption=predict)
@@ -282,10 +282,10 @@ with st.container():
         for percent_complete in range(100):
             time.sleep(0.1)
         my_bar.progress(percent_complete + 1)
-        fig_1 = plt.figure(figsize=(15, 6))
-        plt.ylabel('Energy Usage in KWH/hh')
-        plt.xlabel('Timeframe')
-        plt.title('Forecasted Energy vs Actual Energy Usage Demo')
+        fig_1 = plt.figure(figsize=(15, 6));
+        plt.ylabel('Energy usage in KWH per half hour')
+        plt.xlabel('Forecast date range')
+        plt.title('Forecasted Energy vs Actual Energy Usage')
         sns.lineplot(x=forecast['ds'],y=forecast['yhat'],label='Forecast');
         x = test_df['DateTime'].loc[(test_df['DateTime'] <= '2014-02-14')]
         sns.lineplot(x=x,y=test_df['KWH/hh'],label='Actual', color='red');
@@ -294,24 +294,34 @@ with st.container():
         with st.spinner('Wait for it...'):
             time.sleep(5)
         st.success('Done!')
-        st.pyplot(fig_1);
-
         max_test = 13.40
         min_test =  0.23
         forecast_min = find_value('low').round(2)
         forecast_max = find_value('high').round(2)
+
+        elecf=[1.196367,1.164487,1.052873,0.949678,0.910947,0.863625,0.846739,0.857709,0.877138,0.962776,1.095168,1.222492]
+        co2=0.309 # kg/kwh emission
+        annual_consumption=round((forecast.sum()/elecf[1])*np.sum(elecf),2)
+        annual_co2=round(co2*annual_consumption,2)
+
         total_usage = forecast.sum()
         tu = total_usage.to_string().strip("yhatdtype:float64")
         tu2 = float(tu)
         tu3 = round(tu2,2)
         average_usage = 330.47
-
+        average_annual_consumption=round((average_usage/elecf[1])*np.sum(elecf),2)
+        annual_co2 = annual_co2.to_string().strip("yhatdtype:float64")
         col1, col2, col3 = st.columns(3)
-        col1.metric("Use vs Average (KWH/hh)", tu3, average_usage)
-        col2.metric("Low vs Average Low (KWH/hh)", forecast_min, min_test)
-        col3.metric("High vs Average High (KWH/hh)", forecast_max, max_test)
-        st.caption(f"You will use a predicted total of {tu2} KWH/hh next month, compared to {average_usage} KWH/hh in the average home")
-        st.pyplot(fig_2)
+        col1.metric("February Use vs Average (KWH)", tu3, average_usage)
+        col2.metric("Annual Energy Consumption (KWH)", annual_consumption, average_annual_consumption)
+        col3.metric("High vs Average High (KWH)", forecast_max, max_test)
+        st.subheader(f'Predicted Annual Carbon Footprint: {annual_co2} Kg CO₂')
+        st.pyplot(fig_1);
+        mape = evaluate(test_df['KWH/hh'], forecast['yhat'])
+        # st.write(f'MAPE: {mape}')
+        accuracy = np.round((1 - mape) *100,2)
+        st.subheader(f'Forecast accuracy: {accuracy} %')
+        #st.pyplot(fig_2);
 
 # ---| FOOTER SECTION|--->>>>
 with st.container():
@@ -319,7 +329,7 @@ with st.container():
     Flooter_col_1, Flooter_col_2, Flooter_col_3, Flooter_col_4 = st.columns(4)
     with Flooter_col_1:
         st.subheader("The Team")
-        st.write("This app was created by the Team Energy. The Team Energy is a group of 4 students from Le Wagon Data Science Bootcamp. The Team Energy is made up of the following members:")
+        st.write("This app was created by Team Energy. Team Energy is a group of 4 students from Le Wagon's Data Science Bootcamp. Team Energy is made up of the following members:")
     with Flooter_col_2:
         if Lottie_off == False:
             st_lottie (Team_Lottie_Animation, speed=1, key="i")
