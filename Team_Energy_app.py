@@ -26,17 +26,18 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import joblib
 import time
+import json
+from Team_Energy.predict  import *
+from Team_Energy.data import create_data, get_weather
+import webbrowser
+
 # ---| VERIABLES |--->>>>
 API_MODE = False
 Show_Graph = False
 Lottie_off = False
 User_Group_Selected = 0
-# ---| API ON/OFF DEPENDENT LIBRARIES |--->>>>
-if API_MODE == False:
-    from Team_Energy.predict  import *
-    from Team_Energy.data import create_data, get_weather
 # ---| PAGE CONFIGURATION |--->>>>
-st.set_page_config(page_title="Team Energy Le Wagon Project", page_icon=":zap:", layout="wide", initial_sidebar_state="expanded")
+st.set_page_config(page_title="Energy.app", page_icon=":zap:", layout="wide", initial_sidebar_state="auto")
 # ---| LOAD CSS FOR STYLEING |---
 def local_css(file_name):
     with open(file_name) as f:
@@ -103,31 +104,47 @@ def api_check_call(check=False):
         st.write("API Call is set to False, Please Enable API Call")
 
 @st.experimental_memo
-def Mode_Predict_Run(User_Tarrif_Selected, User_Group_Selected):
-    name = User_Group_Selected
-    tariff = User_Tarrif_Selected
-    # ---| IMPORT JOBLIT MODEL |--->>>>
-    filename = f'Team_Energy/model_{name}_{tariff}.joblib'
-    m = joblib.load(filename)
-    with st.spinner('Spinning up the Hard Drives'):
-        time.sleep(5)
-    st.success('All Working Well')
-        # ---| PREDICTING |--->>>>
-    m = joblib.load(filename)
-    with st.spinner('Last Part! This can take a second or two'):
-        time.sleep(5)
-    train_df, test_df = create_data(name = name, tariff = tariff)
-    train_wd, test_wd = get_weather(train_df, test_df)
-    forecast = forecast_model(m,train_wd,test_wd,add_weather=True)
-    Show_Graph = True
-    st.success('Done, Plostting Graphis now.')
-    return forecast, Show_Graph
+def api_model_select(model, name, tariff):
+    url = f"https://team-energy-model-api-sf2mcflzda-ew.a.run.app/model/{model}?name={name}&tariff={tariff}"
+    r = requests.get(url)
+    if r.status_code != 200:
+        return st.write("Oh No Something Went Wrong")
+    r.json
+    return r.json()
+
+def plot_graphs(test_set,predicted_consumption):
+    df_plot=test_df['2014':].copy()
+    df_plot.rename(columns={'KWH/hh':'Test'},inplace=True)
+    df_plot['Predicted']=predicted_consumption
+    plt.figure(figsize=(18,6))
+    plt.plot(df_plot)
+    plt.title('Electricity Consumption Prediction')
+    plt.xlabel('Time')
+    plt.ylabel('Consumption (kWh/hh)')
+    plt.legend()
+    plt.show()
+
+def return_api_docs():
+    #!/usr/bin/env python3
+    a_website = "https://www.google.com"
+    # Open url in a new window of the default browser, if possible
+    # webbrowser.open_new(a_website)
+    # Open url in a new page (“tab”) of the default browser, if possible
+    return webbrowser.open_new_tab(a_website)
+
+    # webbrowser.open(a_website, 1) # Equivalent to: webbrowser.open_new(a_website)
+    # webbrowser.open(a_website, 2) # Equivalent to: webbrowser.open_new_tab(a_website)
+
+# def model_acuracy():
+#     acuracy = (1 - mape)*100
+#     st.write(f'Accuracy: {acuracy}')
+#     st.metric(label="Prediction acuracy", value=f'{acuracy}%', delta="0%")
+
 # ---| SIDE BAR |--->>>>
 with st.sidebar:
     st.image('Images/Team_Energy_Logo.png', width=200)
     st.title("Built By Team Energy")
-    st.write("This app is designed to help you understand your energy usage and how it compares to other households. To get started, please select your tariff.")
-    st.write("We hope you enjoy using this app and find it useful.")
+    st.write("This app is designed to help you understand your energy usage and how it compares to other households. To get started, please select your tariff We hope you enjoy using this app and find it useful.")
     st_lottie(House_Energy_Animation, speed=1, reverse=False, loop=True, height=250, key=None)
 # ---| HEADER SECTION |--->>>>
 with st.container():
@@ -183,41 +200,74 @@ with st.container():
                 st.write("Please select an option")
 
         with tab7:
-        # Submit Button
-            st.empty()
-            if st.button("Submit"):
-                # Predict_Model(User_Tarrif_Selected,User_Group_Selected )
-                if User_Tarrif_Selected != "" and Question_1 != "" and Question_2 != "" and Question_3 != "" and Question_4 != "":
-                    User_Group_Selected = questions(Q1 = Question_1, Q2 = Question_2, Q3 = Question_3, Q4 = Question_4)
-                    # forecast = Mode_Predict_Run(User_Tarrif_Selected = User_Tarrif_Selected,User_Group_Selected = User_Group_Selected)
+            col1,col2,col3 = st.columns(3)
+            with col1:
+                #Submit Button
+                if st.button("Submit"):
+                    # Predict_Model(User_Tarrif_Selected,User_Group_Selected )
+                    if User_Tarrif_Selected != "" and Question_1 != "" and Question_2 != "" and Question_3 != "" and Question_4 != "":
+                        User_Group_Selected = questions(Q1 = Question_1, Q2 = Question_2, Q3 = Question_3, Q4 = Question_4)
+                        # forecast = Mode_Predict_Run(User_Tarrif_Selected = User_Tarrif_Selected,User_Group_Selected = User_Group_Selected)
 
-                    with st.spinner(f'Calling the model for Acorn group: {User_Group_Selected}'):
-                        time.sleep(5)
-                        st.success('Good so far')
-                        # User_Group_Selected = questions(Q1 = Question_1, Q2 = Question_2, Q3 = Question_3, Q4 = Question_4)
+                        with st.spinner(f'Calling the model for Acorn group: {User_Group_Selected}'):
+                            time.sleep(5)
+                            st.success('Good so far')
+                            # User_Group_Selected = questions(Q1 = Question_1, Q2 = Question_2, Q3 = Question_3, Q4 = Question_4)
+                            name = User_Group_Selected
+                            tariff = User_Tarrif_Selected
+                            # ---| IMPORT JOBLIT MODEL |--->>>>
+                            filename = f'Team_Energy/model_{name}_{tariff}.joblib'
+                            m = joblib.load(filename)
+                            with st.spinner('Spinning up the Hard Drives'):
+                                time.sleep(5)
+                            st.success('All Working Well')
+                            # ---| PREDICTING |--->>>>
+                            m = joblib.load(filename)
+                            with st.spinner('Last Part! This can take a second or two'):
+                                time.sleep(5)
+                            train_df, test_df = create_data(name = name, tariff = tariff)
+                            train_wd, test_wd = get_weather(train_df, test_df)
+                            forecast = forecast_model(m,train_wd,test_wd,add_weather=True)
+                            Show_Graph = True
+                            st.success('Done, Plotting Graphs now.')
+                            mape = evaluate(test_df['KWH/hh'], forecast['yhat'])
+                            # st.write(f'MAPE: {mape}')
+                            acuracy = (1 - mape)
+                            st.write(f'Accuracy: {acuracy}')
+            with col2:
+                if st.button("Submit +"):
+                    if User_Tarrif_Selected != "" and Question_1 != "" and Question_2 != "" and Question_3 != "" and Question_4 != "":
+                        User_Group_Selected = questions(Q1 = Question_1, Q2 = Question_2, Q3 = Question_3, Q4 = Question_4)
                         name = User_Group_Selected
                         tariff = User_Tarrif_Selected
-                        # ---| IMPORT JOBLIT MODEL |--->>>>
-                        filename = f'Team_Energy/model_{name}_{tariff}.joblib'
-                        m = joblib.load(filename)
-                        with st.spinner('Spinning up the Hard Drives'):
-                            time.sleep(5)
-                        st.success('All Working Well')
-                        # ---| PREDICTING |--->>>>
-                        m = joblib.load(filename)
-                        with st.spinner('Last Part! This can take a second or two'):
-                            time.sleep(5)
-                        train_df, test_df = create_data(name = name, tariff = tariff)
-                        train_wd, test_wd = get_weather(train_df, test_df)
-                        forecast = forecast_model(m,train_wd,test_wd,add_weather=True)
-                        Show_Graph = True
-                        st.success('Done, Plotting Graphs now.')
-                        mape = evaluate(test_df['KWH/hh'], forecast['yhat'])
-                        # st.write(f'MAPE: {mape}')
-                        acuracy = (1 - mape)
+                        model = "RNN_predict"
+                        api_json = api_model_select(model, name, tariff)
+                        predict_json = api_json['prediction'][0]
+                        acuracy = api_json['accuracy']
+                        predict = pd.DataFrame(predict_json)
+                        # test_set_json = api_json['test_set']
+                        # test_set = pd.DataFrame(test_set_json)
                         st.write(f'Accuracy: {acuracy}')
-                        # st.write(forecast)
+                        ajusted_acuracy = (1-acuracy) * 100
+                        st.write(predict)
+                        st.write(f'Accuracy: {ajusted_acuracy}')
+                        st.line_chart(predict)
+
+                        plot_graphs('''test_set=test_set''',predicted_consumption=predict)
+            with col3:
+                # resets the questions
+                if st.button("Reset"):
+                    User_Tarrif_Selected = ""
+                    Question_1 = ""
+                    Question_2 = ""
+                    Question_3 = ""
+                    Question_4 = ""
+                    st.write("Please select your options again")
+                if st.button("API docs"):
+                    return_api_docs
+
 with st.container():
+
     if Show_Graph == True:
         my_bar = st.progress(0)
         for percent_complete in range(100):
@@ -241,9 +291,8 @@ with st.container():
         tu = total_usage.to_string().strip("yhatdtype:float64")
         average_usage = 330.47289
         st.caption(f"You will use a predicted total of {tu} KWH/hh next month, compared to {average_usage} KWH/hh in the average home")
-
-
         st.pyplot(fig_2)
+
 # ---| FOOTER SECTION|--->>>>
 with st.container():
     st.write("---")
