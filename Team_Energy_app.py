@@ -140,6 +140,15 @@ def return_api_docs():
 #     st.write(f'Accuracy: {acuracy}')
 #     st.metric(label="Prediction acuracy", value=f'{acuracy}%', delta="0%")
 
+def find_value(x):
+    forecast2 = forecast.copy()
+    forecast2['day_of_month'] = forecast2.ds.dt.day
+    forecast_grouped = forecast2.groupby('day_of_month').sum()
+    if x == 'low':
+        return forecast_grouped.min()
+    if x == 'high':
+        return forecast_grouped.max()
+
 # ---| SIDE BAR |--->>>>
 with st.sidebar:
     st.image('Images/Team_Energy_Logo.png', width=200)
@@ -159,11 +168,11 @@ with st.container():
         st.empty()
 # ---| MAIN SECTION |--->>>>  Cleaned
 with st.container():
-    tab0, tab1, tab3, tab4, tab5, tab6, tab7 = st.tabs(["Intro","Tarrif Type", "House Type","Home owner?","Number of Bedrooms","Household Income","Submit"])
+    tab0, tab1, tab3, tab4, tab5, tab6, tab7 = st.tabs(["Intro","Tariff Type", "House Type","Home owner?","Number of Bedrooms","Household Income","Submit"])
     with tab0:
         st.write("This app will help you to predict your energy consumption")
         st.write("All you need to do is answer a few questions, sound good?")
-        st.write("Let's get started. Just click on the next tab called Q1 to")
+        st.write("Let's get started. Just click on the next tab called Tariff Type to")
         st.write("get started")
     with tab1:
         st.write("Please Select your Tariff Type your currently on")
@@ -277,7 +286,7 @@ with st.container():
         plt.ylabel('Energy Usage in KWH/hh')
         plt.xlabel('Timeframe')
         plt.title('Forecasted Energy vs Actual Energy Usage Demo')
-        sns.lineplot(x=forecast['ds'],y=forecast['yhat'],label='Forecast')
+        sns.lineplot(x=forecast['ds'],y=forecast['yhat'],label='Forecast');
         x = test_df['DateTime'].loc[(test_df['DateTime'] <= '2014-02-14')]
         sns.lineplot(x=x,y=test_df['KWH/hh'],label='Actual', color='red');
         fig_2 = figure(figsize=(15,6))
@@ -285,12 +294,23 @@ with st.container():
         with st.spinner('Wait for it...'):
             time.sleep(5)
         st.success('Done!')
-        st.pyplot(fig_1)
+        st.pyplot(fig_1);
 
+        max_test = 13.40
+        min_test =  0.23
+        forecast_min = find_value('low').round(2)
+        forecast_max = find_value('high').round(2)
         total_usage = forecast.sum()
         tu = total_usage.to_string().strip("yhatdtype:float64")
-        average_usage = 330.47289
-        st.caption(f"You will use a predicted total of {tu} KWH/hh next month, compared to {average_usage} KWH/hh in the average home")
+        tu2 = float(tu)
+        tu3 = round(tu2,2)
+        average_usage = 330.47
+
+        col1, col2, col3 = st.columns(3)
+        col1.metric("Use vs Average (KWH/hh)", tu3, average_usage)
+        col2.metric("Low vs Average Low (KWH/hh)", forecast_min, min_test)
+        col3.metric("High vs Average High (KWH/hh)", forecast_max, max_test)
+        st.caption(f"You will use a predicted total of {tu2} KWH/hh next month, compared to {average_usage} KWH/hh in the average home")
         st.pyplot(fig_2)
 
 # ---| FOOTER SECTION|--->>>>
