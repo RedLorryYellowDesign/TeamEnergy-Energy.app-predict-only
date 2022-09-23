@@ -37,7 +37,7 @@ Show_Graph = False
 Lottie_off = False
 User_Group_Selected = 0
 # ---| PAGE CONFIGURATION |--->>>>
-st.set_page_config(page_title="Energy.app", page_icon=":zap:", layout="wide", initial_sidebar_state="auto")
+st.set_page_config(page_title="Energy.app", page_icon=":zap:", layout="wide", initial_sidebar_state="auto",menu_items="About")
 # ---| LOAD CSS FOR STYLEING |---
 def local_css(file_name):
     with open(file_name) as f:
@@ -96,7 +96,7 @@ def questions(Q1, Q2, Q3, Q4):
 def api_check_call(check=False):
     url = f"https://team-weather-lewagon-sf2mcflzda-ew.a.run.app"
     if check == True:
-        r = requests.get(url/AlL_Good)
+        r = requests.get(url/all_Good)
         if r.status_code != 200:
             return None
         return r.json()
@@ -123,22 +123,6 @@ def plot_graphs(test_set,predicted_consumption):
     plt.ylabel('Consumption (kWh/hh)')
     plt.legend()
     plt.show()
-
-def return_api_docs():
-    #!/usr/bin/env python3
-    a_website = "https://www.google.com"
-    # Open url in a new window of the default browser, if possible
-    # webbrowser.open_new(a_website)
-    # Open url in a new page (“tab”) of the default browser, if possible
-    return webbrowser.open_new_tab(a_website)
-
-    # webbrowser.open(a_website, 1) # Equivalent to: webbrowser.open_new(a_website)
-    # webbrowser.open(a_website, 2) # Equivalent to: webbrowser.open_new_tab(a_website)
-
-# def model_acuracy():
-#     acuracy = (1 - mape)*100
-#     st.write(f'Accuracy: {acuracy}')
-#     st.metric(label="Prediction acuracy", value=f'{acuracy}%', delta="0%")
 
 def find_value(x):
     forecast2 = forecast.copy()
@@ -209,7 +193,7 @@ with st.container():
                 st.write("Please select an option")
 
         with tab7:
-            col1,col2,col3 = st.columns(3)
+            col1,col2 = st.columns(2)
             with col1:
                 #Submit Button
                 if st.button("Submit"):
@@ -243,27 +227,26 @@ with st.container():
                             # st.write(f'MAPE: {mape}')
                             acuracy = (1 - mape)
                             #st.write(f'Accuracy: {acuracy}')
+            # with col2:
+            #     if st.button("Submit +"):
+            #         if User_Tarrif_Selected != "" and Question_1 != "" and Question_2 != "" and Question_3 != "" and Question_4 != "":
+            #             User_Group_Selected = questions(Q1 = Question_1, Q2 = Question_2, Q3 = Question_3, Q4 = Question_4)
+            #             name = User_Group_Selected
+            #             tariff = User_Tarrif_Selected
+            #             model = "RNN_predict"
+            #             api_json = api_model_select(model, name, tariff)
+            #             predict_json = api_json['prediction'][0]
+            #             acuracy = api_json['accuracy']
+            #             predict = pd.DataFrame(predict_json)
+            #             # test_set_json = api_json['test_set']
+            #             # test_set = pd.DataFrame(test_set_json)
+            #             st.write(f'Accuracy: {acuracy}')
+            #             ajusted_acuracy = (1-acuracy) * 100
+            #             st.write(predict)
+            #             #st.write(f'Accuracy: {ajusted_acuracy}')
+            #             st.line_chart(predict)
+            #             plot_graphs('''test_set=test_set''',predicted_consumption=predict)
             with col2:
-                if st.button("Submit +"):
-                    if User_Tarrif_Selected != "" and Question_1 != "" and Question_2 != "" and Question_3 != "" and Question_4 != "":
-                        User_Group_Selected = questions(Q1 = Question_1, Q2 = Question_2, Q3 = Question_3, Q4 = Question_4)
-                        name = User_Group_Selected
-                        tariff = User_Tarrif_Selected
-                        model = "RNN_predict"
-                        api_json = api_model_select(model, name, tariff)
-                        predict_json = api_json['prediction'][0]
-                        acuracy = api_json['accuracy']
-                        predict = pd.DataFrame(predict_json)
-                        # test_set_json = api_json['test_set']
-                        # test_set = pd.DataFrame(test_set_json)
-                        st.write(f'Accuracy: {acuracy}')
-                        ajusted_acuracy = (1-acuracy) * 100
-                        st.write(predict)
-                        #st.write(f'Accuracy: {ajusted_acuracy}')
-                        st.line_chart(predict)
-
-                        plot_graphs('''test_set=test_set''',predicted_consumption=predict)
-            with col3:
                 # resets the questions
                 if st.button("Reset"):
                     User_Tarrif_Selected = ""
@@ -272,8 +255,6 @@ with st.container():
                     Question_3 = ""
                     Question_4 = ""
                     st.write("Please select your options again")
-                if st.button("API docs"):
-                    return_api_docs
 
 with st.container():
 
