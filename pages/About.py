@@ -59,18 +59,18 @@ with st.container():
 # 	•	Evaluating a property to buy or lease based on its typical energy usage.  Students etc may need a more detailed breakdown than an EPC rating can provide
 # 	•	Based on a model with further features, recommendations could be made to individuals on the best time for them to use energy.
 
+"""
+
+	•	Real estate agents
+The models with specific house features could be integrated into websites.  Certain houses could be categorised for marketing purposes.  The model could also supply agents with a competitive advantage and make a particular agency more attractive to the energy conscious buyer or renter.
 
 
-# 	•	Real estate agents
-# The models with specific house features could be integrated into websites.  Certain houses could be categorised for marketing purposes.  The model could also supply agents with a competitive advantage and make a particular agency more attractive to the energy conscious buyer or renter.
+	•	Government / Large power network suppliers
 
+This model can help provide broad scale information about energy consumption within a community based on weather patterns and historical usage. This can be leveraged by network suppliers to planning, execution and maintenance.  Effective planning can accelerate decarbonisation.
 
-# 	•	Government / Large power network suppliers
+Local government could also use this data to identify outliers.  This could be in the forms of houses with excess energy usage who may benefit from schemes to provide insulation or support.
 
-# This model can help provide broad scale information about energy consumption within a community based on weather patterns and historical usage. This can be leveraged by network suppliers to planning, execution and maintenance.  Effective planning can accelerate decarbonisation.
+Government could also use this data to create pre-emptive plans to avoid fuel poverty for specific households.  In terms of research and development, this would likely save significant time and budget.
 
-# Local government could also use this data to identify outliers.  This could be in the forms of houses with excess energy usage who may benefit from schemes to provide insulation or support.
-
-# Government could also use this data to create pre-emptive plans to avoid fuel poverty for specific households.  In terms of research and development, this would likely save significant time and budget.
-
-# """
+"""

@@ -17,4 +17,4 @@ echo "\
 headless = fasle\n\
 enableCORS=false\n\
 port = $PORT\n\
-" > ~/.streamlit/credentials.tomls3
+" > ~/.streamlit/credentials.tomls
