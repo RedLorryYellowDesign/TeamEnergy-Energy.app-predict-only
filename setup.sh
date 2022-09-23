@@ -7,7 +7,6 @@ email = \"jordan.lee.harrs@icloud.com\"\n\
 
 echo "\
 [server]\n\
-headless = true\n\
+headless = fasle\n\
 enableCORS=false\n\
 port = $PORT\n\
-" > ~/.streamlit/config.toml
