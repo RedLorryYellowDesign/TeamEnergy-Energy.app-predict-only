@@ -29,8 +29,6 @@ import time
 import json
 from Team_Energy.predict  import *
 from Team_Energy.data import create_data, get_weather
-import webbrowser
-
 # ---| VERIABLES |--->>>>
 API_MODE = False
 Show_Graph = False
@@ -38,17 +36,6 @@ Lottie_off = False
 User_Group_Selected = 0
 # ---| PAGE CONFIGURATION |--->>>>
 st.set_page_config(page_title="Energy.app", page_icon=":zap:", layout="wide", initial_sidebar_state="auto", menu_items={"About":"https://redlorryyellowdesign-teamenergy-energy-a-team-energy-app-xg55r5.streamlitapp.com/11_About.py"})
-# st.set_page_config(
-#     page_title="Ex-stream-ly Cool App",
-#     page_icon="🧊",
-#     layout="wide",
-#     initial_sidebar_state="expanded",
-#     menu_items={
-#         'Get Help': 'https://www.extremelycoolapp.com/help',
-#         'Report a bug': "https://www.extremelycoolapp.com/bug",
-#         'About': "# This is a header. This is an *extremely* cool app!"
-#     }
-# )
 # ---| LOAD CSS FOR STYLEING |---
 def local_css(file_name):
     with open(file_name) as f:
@@ -149,7 +136,7 @@ with st.sidebar:
     st.image('Images/Team_Energy_Logo.png', width=200)
     st.title("Built By Team Energy")
     st.write("This app is designed to help you understand your energy usage and how it compares to other households.")
-    st_lottie(House_Energy_Animation, speed=1, reverse=False, loop=True, height=250, key=None)
+    st_lottie(House_Energy_Animation, speed=0.8, reverse=False, loop=True, height=250, key=None)
 # ---| HEADER SECTION |--->>>>
 with st.container():
     Header_col_1, Header_col_2, Header_col_3, Header_col_4 = st.columns(4)
