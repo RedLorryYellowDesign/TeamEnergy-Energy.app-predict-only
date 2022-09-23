@@ -107,7 +107,7 @@ def questions(Q1, Q2, Q3, Q4):
 def api_check_call(check=False):
     url = f"https://team-weather-lewagon-sf2mcflzda-ew.a.run.app"
     if check == True:
-        r = requests.get(url/all_Good)
+        r = requests.get(url)
         if r.status_code != 200:
             return None
         return r.json()
