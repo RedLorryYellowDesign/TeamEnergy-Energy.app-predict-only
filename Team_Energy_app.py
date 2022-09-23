@@ -186,7 +186,7 @@ with st.container():
         my_bar = st.progress(0)
         for percent_complete in range(100):
             time.sleep(0.1)
-        my_bar.progress(percent_complete + 1, 'Done!')
+        my_bar.progress(percent_complete + 1)
         fig_1 = plt.figure(figsize=(15, 6));
         plt.ylabel('Energy usage in KWH per half hour')
         plt.xlabel('Forecast date range')
