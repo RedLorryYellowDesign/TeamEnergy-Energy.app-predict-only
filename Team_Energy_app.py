@@ -195,33 +195,32 @@ with st.container():
         x = test_df['DateTime'].loc[(test_df['DateTime'] <= '2014-02-14')]
         sns.lineplot(x=x,y=test_df['KWH/hh'],label='Actual', color='red');
         fig_2 = figure(figsize=(15,6))
-        # max_test = 13.40
-        # min_test =  0.23
-        # forecast_min = find_value('low').round(2)
-        # forecast_max = find_value('high').round(2)
+        max_test = 13.40
+        min_test =  0.23
+        forecast_min = find_value('low').round(2)
+        forecast_max = find_value('high').round(2)
+        elecf=[1.196367,1.164487,1.052873,0.949678,0.910947,0.863625,0.846739,0.857709,0.877138,0.962776,1.095168,1.222492]
+        co2=0.309 # kg/kwh emission
+        annual_consumption=round((forecast.sum()/elecf[1])*np.sum(elecf),2)
+        annual_co2=round(co2*annual_consumption,2)
 
-        # elecf=[1.196367,1.164487,1.052873,0.949678,0.910947,0.863625,0.846739,0.857709,0.877138,0.962776,1.095168,1.222492]
-        # co2=0.309 # kg/kwh emission
-        # annual_consumption=round((forecast.sum()/elecf[1])*np.sum(elecf),2)
-        # annual_co2=round(co2*annual_consumption,2)
-
-        # total_usage = forecast.sum()
-        # tu = total_usage.to_string().strip("yhatdtype:float64")
-        # tu2 = float(tu)
-        # tu3 = round(tu2,2)
-        # average_usage = 330.47
-        # average_annual_consumption=round((average_usage/elecf[1])*np.sum(elecf),2)
-        # annual_co2 = annual_co2.to_string().strip("yhatdtype:float64")
-        # col1, col2, col3 = st.columns(3)
-        # col1.metric("February Use vs Average (KWH)", tu3, average_usage)
-        # col2.metric("Annual Energy Consumption (KWH)", annual_consumption, average_annual_consumption)
-        # col3.metric("High vs Average High (KWH)", forecast_max, max_test)
-        # st.subheader(f'Predicted Annual Carbon Footprint: {annual_co2} Kg CO₂')
-        # st.pyplot(fig_1);
-        # mape = evaluate(test_df['KWH/hh'], forecast['yhat'])
-        # # st.write(f'MAPE: {mape}')
-        # accuracy = np.round((1 - mape) *100,2)
-        # st.subheader(f'Forecast accuracy: {accuracy} %')
+        total_usage = forecast.sum()
+        tu = total_usage.to_string().strip("yhatdtype:float64")
+        tu2 = float(tu)
+        tu3 = round(tu2,2)
+        average_usage = 330.47
+        average_annual_consumption=round((average_usage/elecf[1])*np.sum(elecf),2)
+        annual_co2 = annual_co2.to_string().strip("yhatdtype:float64")
+        col1, col2, col3 = st.columns(3)
+        col1.metric("February Use vs Average (KWH)", tu3, average_usage)
+        col2.metric("Annual Energy Consumption (KWH)", annual_consumption, average_annual_consumption)
+        col3.metric("High vs Average High (KWH)", forecast_max, max_test)
+        st.subheader(f'Predicted Annual Carbon Footprint: {annual_co2} Kg CO₂')
+        st.pyplot(fig_1);
+        mape = evaluate(test_df['KWH/hh'], forecast['yhat'])
+        # st.write(f'MAPE: {mape}')
+        accuracy = np.round((1 - mape) *100,2)
+        st.subheader(f'Forecast accuracy: {accuracy} %')
 
 # ---| FOOTER SECTION|--->>>>
 with st.container():
