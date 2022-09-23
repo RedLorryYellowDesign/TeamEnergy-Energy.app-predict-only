@@ -12,7 +12,7 @@ print('#######################')
 #     print('Unknown group')
 #     exit()
 
- # Input constraints
+# Input constraints
 print('Please enter the minimum number of days of data for houses')
 mindaydata = input()
 print('Please enter maximum acceptable number of missing data')
