@@ -37,18 +37,18 @@ Show_Graph = False
 Lottie_off = False
 User_Group_Selected = 0
 # ---| PAGE CONFIGURATION |--->>>>
-# st.set_page_config(page_title="Energy.app", page_icon=":zap:", layout="wide", initial_sidebar_state="auto", menu_items={ "About Energy.app",'Get Help': 'https://www.extremelycoolapp.com/help','Report a bug': "https://www.extremelycoolapp.com/bug", 'About': "# This is a header. This is an *extremely* cool app!"})
-st.set_page_config(
-    page_title="Ex-stream-ly Cool App",
-    page_icon="🧊",
-    layout="wide",
-    initial_sidebar_state="expanded",
-    menu_items={
-        'Get Help': 'https://www.extremelycoolapp.com/help',
-        'Report a bug': "https://www.extremelycoolapp.com/bug",
-        'About': "# This is a header. This is an *extremely* cool app!"
-    }
-)
+st.set_page_config(page_title="Energy.app", page_icon=":zap:", layout="wide", initial_sidebar_state="auto")
+# st.set_page_config(
+#     page_title="Ex-stream-ly Cool App",
+#     page_icon="🧊",
+#     layout="wide",
+#     initial_sidebar_state="expanded",
+#     menu_items={
+#         'Get Help': 'https://www.extremelycoolapp.com/help',
+#         'Report a bug': "https://www.extremelycoolapp.com/bug",
+#         'About': "# This is a header. This is an *extremely* cool app!"
+#     }
+# )
 # ---| LOAD CSS FOR STYLEING |---
 def local_css(file_name):
     with open(file_name) as f:
