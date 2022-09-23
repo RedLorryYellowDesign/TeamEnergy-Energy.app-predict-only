@@ -22,7 +22,7 @@ from Team_Energy.data import create_data, get_weather
 Show_Graph = False
 User_Group_Selected = 0
 # ---| PAGE CONFIGURATION |--->>>>
-st.set_page_config(page_title="Energy.app", page_icon=":zap:", layout="wide")
+st.set_page_config(page_title="Energy.app", page_icon=":zap:", layout="wide",menu_items = {about:https://redlorryyellowdesign-teamenergy-energy-a-team-energy-app-xg55r5.streamlitapp.com/About} )
 # ---| LOAD CSS FOR STYLEING |---
 def local_css(file_name):
     with open(file_name) as f:
@@ -103,7 +103,6 @@ with st.container():
         st.write("This app will help you to predict your energy consumption")
         st.write("All you need to do is answer a few questions, sounds good?")
         st.write("Let's get started. Just click on the next tab called 'Tariff Type' to get started")
-
     with tab1:
         st.write("Please select your current tariff")
         User_Tarrif_Selected = st.selectbox('Pick one', ["","Standard Tariff", "Dynamic Tariff"])
