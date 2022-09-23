@@ -6,5 +6,7 @@ import seaborn as sns
 import time
 from Team_Energy_app import Show_Graph, forecast, test_df, figure, test_wd
 
+with st.container():
+    st.empty()
 
-st.json(r.json)
+    st.write("This is a test of the emergency broadcast system")
