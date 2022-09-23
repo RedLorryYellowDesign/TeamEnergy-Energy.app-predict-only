@@ -3,7 +3,7 @@
 [theme]
 
 # The preset Streamlit theme that your custom theme inherits from. One of "light" or "dark".
-# base = light
+base = light
 
 # Primary accent for interactive elements
 primaryColor="#6eb52f"
