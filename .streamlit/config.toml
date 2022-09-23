@@ -3,16 +3,15 @@
 base = "dark"
 
 # Primary accent for interactive elements
-primaryColor="B76D68"
+primaryColor="#E7D2CC"
 
 # Background color for the main content area
-backgroundColor="#2C2B3C"
-
+backgroundColor="#868B8E"
 # Background color for sidebar and most interactive widgets
-secondaryBackgroundColor="1B2432"
+secondaryBackgroundColor="#B9B7BD"
 
 # Color used for almost all text
-textColor="#121420"
+textColor="#EEEDE7"
 
 # Font family for all text in the app, except code blocks
 # Accepted values (serif | sans serif | monospace)
