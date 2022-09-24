@@ -143,7 +143,7 @@ with st.container():
                 if User_Tarrif_Selected == "Standard Tariff":
                     User_Tarrif_Selected = "Std"
                 elif User_Tarrif_Selected == "Dynamic Tariff":
-                    User_Tarrif_Selected = "Tou"
+                    User_Tarrif_Selected = "ToU"
         with col3:
             st.text("""
                     ‎
