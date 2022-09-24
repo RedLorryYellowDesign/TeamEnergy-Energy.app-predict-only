@@ -21,6 +21,8 @@ from Team_Energy.data import create_data, get_weather
 # ---| VERIABLES |--->>>>
 Show_Graph = False
 User_Group_Selected = 0
+data_exachange = False
+
 # ---| PAGE CONFIGURATION |--->>>>
 st.set_page_config(page_title="Energy.app", page_icon=":zap:", layout="wide",menu_items = {"about":"https://redlorryyellowdesign-teamenergy-energy-a-team-energy-app-xg55r5.streamlitapp.com/About"} )
 # ---| LOAD CSS FOR STYLEING |---
@@ -100,52 +102,185 @@ with st.container():
 with st.container():
     tab0, tab1, tab3, tab4, tab5, tab6, tab7 = st.tabs(["Intro","Tariff Type", "House Type","Ownership Status","Number of Bedrooms","Household Income","Submit"])
     with tab0:
-        st.write("This app will help you to predict your energy consumption")
-        st.write("All you need to do is answer a few questions, sounds good?")
-        st.write("Let's get started. Just click on the next tab called 'Tariff Type' to get started")
+        col1,col2,col3 = st.columns((1,1,2))
+        with col1:
+            st.subheader("How to use this app")
+            st.write("""This app will help you to predict your energy consumption allyou need to do is answer
+                    a few questions, sounds good? Let's get started.ust click on the next tab called
+                    'Tariff Type' to get started.""")
+        with col2:
+            st.empty()
+        with col3:
+            st.text("""
+                    ‎
+                    ‎‎
+                    ‎
+                    ‎‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+""")
+
     with tab1:
-        st.write("Please select your current tariff")
-        User_Tarrif_Selected = st.selectbox('Pick one', ["","Standard Tariff", "Dynamic Tariff"])
-
-        if User_Tarrif_Selected == "Standard Tariff":
-            User_Tarrif_Selected = "Std"
-            st.write("You have selected Standard Tariff")
-
-        elif User_Tarrif_Selected == "Dynamic Tariff":
-            User_Tarrif_Selected = "ToU"
-            st.write("You have selected Dynamic Tariff")
-        else:
-            st.warning("Please select a tariff")
-
+        col1,col2,col3 = st.columns((1,1,2))
+        with col1:
+            st.subheader("Please select your Energy current tariff")
+        with col2:
+            User_Tarrif_Selected = st.selectbox('Pick one', ["","Standard Tariff", "Dynamic Tariff"])
+            if User_Tarrif_Selected == "":
+                st.write("Please select a tariff")
+            else:
+                st.write(f"You have selected, {User_Tarrif_Selected}")
+                if User_Tarrif_Selected == "Standard Tariff":
+                    User_Tarrif_Selected = "Std"
+                elif User_Tarrif_Selected == "Dynamic Tariff":
+                    User_Tarrif_Selected = "Tou"
+        with col3:
+            st.text("""
+                    ‎
+                    ‎‎
+                    ‎
+                    ‎‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+""")
         with tab3:
-            st.write("What is your house type?")
-            Question_1 = st.selectbox('Pick one', ["",'Detached house', "Flat or Maisonette", "Semi-detached house","Terraced house"], key="Question_1")
-            if Question_1 != "":
-                st.write("Please select an option")
+            col1,col2,col3 = st.columns((1,1,2))
+            with col1:
+                st.subheader("What is your house type?")
+            with col2:
+                Question_1 = st.selectbox('Pick one', ["",'Detached house', "Flat or Maisonette", "Semi-detached house","Terraced house"], key="Question_1")
+                if Question_1 == "":
+                    st.write("Please select an option")
+            with col3:
+                st.text("""
+                    ‎
+                    ‎‎
+                    ‎
+                    ‎‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+""")
 
         with tab4:
-            st.write("What is your property ownership status?")
-            Question_2 = st.selectbox('Pick one', ["",'Owned outright', 'Mortgaged', 'Shared/Equity Ownerhsip','Privately Rented', 'Social renting'], key="Question_2")
-            if Question_2 != "":
-                st.write("Please select an option")
+            col1,col2,col3 = st.columns((1,1,2))
+            with col1:
+                st.subheader("What is your property ownership status?")
+            with col2:
+                Question_2 = st.selectbox('Pick one', ["",'Owned outright', 'Mortgaged', 'Shared/Equity Ownerhsip','Privately Rented', 'Social renting'], key="Question_2")
+                if Question_2 == "":
+                    st.write("Please select an option")
+            with col3:
+                st.text("""
+                    ‎
+                    ‎‎
+                    ‎
+                    ‎‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+""")
         with tab5:
-            st.write("How many bedrooms does your house have?")
-            Question_3 = st.selectbox('Pick one', ["",'1 bedroom', '2 bedrooms', '3 bedrooms', '4+ bedrooms'], key="Question_3")
-            if Question_3 != "":
-                st.write("Please select an option")
+            col1,col2,col3 = st.columns((1,1,2))
+            with col1:
+                st.subheader("How many bedrooms does your house have?")
+            with col2:
+                Question_3 = st.selectbox('Pick one', ["",'1 bedroom', '2 bedrooms', '3 bedrooms', '4+ bedrooms'], key="Question_3")
+                if Question_3 == "":
+                    st.write("Please select an option")
+            with col3:
+                st.text("""
+                    ‎
+                    ‎‎
+                    ‎
+                    ‎‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+""")
         with tab6:
-            st.write("What is your estimated household income?")
-            Question_4 = st.selectbox('Pick one', ["",'£0-£20,000', '£20,000-£40,000','£40,000-£60,000','£80,000 +'], key="Question_4")
-            if Question_4 != "":
-                st.write("Please select an option")
+            col1,col2,col3 = st.columns((1,1,2))
+            with col1:
+                st.subheader("What is your estimated household income?")
+            with col2:
+                Question_4 = st.selectbox('Pick one', ["",'£0-£20,000', '£20,000-£40,000','£40,000-£60,000','£80,000 +'], key="Question_4")
+                if Question_4 == "":
+                    st.write("Please select an option")
+            with col3:
+                st.text("""
+                    ‎
+                    ‎‎
+                    ‎
+                    ‎‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+""")
 
         with tab7:
-            col1,col2 = st.columns(2)
+            col1,col2,col3 = st.columns((1,1,2))
             with col1:
+                st.subheader("Submit your answers")
                 #Submit Button
                 if st.button("Submit"):
-                    # Predict_Model(User_Tarrif_Selected,User_Group_Selected )
                     if User_Tarrif_Selected != "" and Question_1 != "" and Question_2 != "" and Question_3 != "" and Question_4 != "":
+
                         User_Group_Selected = questions(Q1 = Question_1, Q2 = Question_2, Q3 = Question_3, Q4 = Question_4)
                         with st.spinner('Spinning up the hard drives...'):
                             time.sleep(5)
@@ -168,9 +303,11 @@ with st.container():
                             mape = evaluate(test_df['KWH/hh'], forecast['yhat'])
                             acuracy = (1 - mape)
                         st.success('Plotting graphs now...')
-
+                    else:
+                        st.write("Oppps, I think you missed a question")
 
             with col2:
+                st.subheader("Reset your answers")
                 # resets the questions
                 if st.button("Reset"):
                     User_Tarrif_Selected = ""
@@ -179,6 +316,25 @@ with st.container():
                     Question_3 = ""
                     Question_4 = ""
                     st.write("Please select your options again")
+            with col3:
+                st.text("""
+                    ‎
+                    ‎‎
+                    ‎
+                    ‎‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+                    ‎
+""")
 
 with st.container():
     if Show_Graph == True:
@@ -220,6 +376,10 @@ with st.container():
         # st.write(f'MAPE: {mape}')
         accuracy = np.round((1 - mape) *100,2)
         st.subheader(f'Forecast accuracy: {accuracy} %')
+        def data_run():
+            if data_exachange == True:
+                return  data_exachange
+
 
 # ---| FOOTER SECTION|--->>>>
 with st.container():

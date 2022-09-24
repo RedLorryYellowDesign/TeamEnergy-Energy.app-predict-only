@@ -4,7 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import time
-from Team_Energy_app import Show_Graph, forecast, test_df, figure, test_wd
+from Team_Energy_app import forecast, test_df, figure, test_wd, data_exachange
 
 with st.container():
     st.empty()
@@ -16,7 +16,7 @@ df = pd.DataFrame(
 st.dataframe(df)  # Same as st.write(df)
 
 with st.container():
-    if Show_Graph == True:
+    if data_exachange == True:
         my_bar = st.progress(0)
         for percent_complete in range(100):
             time.sleep(0.1)
